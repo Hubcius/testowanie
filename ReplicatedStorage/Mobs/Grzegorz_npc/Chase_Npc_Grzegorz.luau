@@ -2,8 +2,8 @@
 local MAX_DISTANCE = math.huge
 
 --variables
-local NPC = script.Parent
-local HumanoidRootPart = NPC.HumanoidRootPart
+local NPC = script:WaitForChild("Parent")
+local HumanoidRootPart = NPC:WaitForChild("HumanoidRootPart")
 local Players = game:GetService("Players")
 local isWaiting = false
 
