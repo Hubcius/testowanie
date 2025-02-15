@@ -6,6 +6,8 @@ local NPC = script.Parent
 local HumanoidRootPart = NPC:WaitForChild("HumanoidRootPart")
 local Players = game:GetService("Players")
 local isWaiting = false
+local boxSize = Vector3.new(10, 10, 10) 
+local boxCenter = NPC.PrimaryPart.Position 
 
 --functions
 function ShowCloudMessage(message)
@@ -24,14 +26,23 @@ function ShowCloudMessage(message)
 	task.wait(1)
 end
 
-function CollisionCheck(message)
+function CollisionCheck()
+	local HitBox=NPC:WaitForChild("HitBox")
+	local partsInHitBox = workspace:GetPartBoundsInBox(HitBox.CFrame, HitBox.Size)
+	for _, part in pairs(partsInHitBox) do
+        local character = part.Parent
+        if character:FindFirstChild("Humanoid") then
+            local humanoid = character:FindFirstChild("Humanoid")
+            print(character.Name .. " is inside the hitbox!")
+        end
+    end
 end
 
 --main code
 while task.wait(0.1) do
 	local closestPlayerHumanoidRootPart
 	local closestDistance = MAX_DISTANCE
-
+	CollisionCheck()
 	for _, plr in pairs(Players:GetPlayers()) do
 		if plr.Character and plr.Character:FindFirstChild("Humanoid") and plr.Character.Humanoid.Health > 0 then
 			local PlayerHumanoidRootPart = plr.Character.HumanoidRootPart
