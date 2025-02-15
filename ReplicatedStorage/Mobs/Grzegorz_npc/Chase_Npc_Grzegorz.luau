@@ -6,24 +6,26 @@ local NPC = script.Parent
 local HumanoidRootPart = NPC:WaitForChild("HumanoidRootPart")
 local Players = game:GetService("Players")
 local isWaiting = false
-local DialogCloud=Instance.new("Dialog")
-DialogCloud.InitialPrompt="Mam większą klate od większości dziewczyn"
 
 --functions
-NPC.Humanoid.Touched:Connect(function(hit)
-	if hit.Parent:FindFirstChild("Humanoid") and not isWaiting then
-		isWaiting = true
-		DialogCloud.Parent=NPC:WaitForChild("Head")
-		local choice = Instance.new("DialogChoice")
-        choice.Name = "ResponseChoice"
-        choice.UserDialog = "Naprawdę?"
-        choice.Parent = DialogCloud
-		hit.Parent.Humanoid.Health -= 10
-		task.wait(1)
-		DialogCloud.Parent=nil
-		isWaiting = false
-	end
-end)
+function ShowCloudMessage(message)
+	local billboard = Instance.new("BillboardGui")
+	billboard.Size = UDim2.new(10, 0, 2, 0)
+	billboard.StudsOffset = Vector3.new(0,4, 0)
+	billboard.Parent = NPC:WaitForChild("Head")
+
+	local textLabel = Instance.new("TextLabel")
+	textLabel.Size = UDim2.new(1, 0, 1, 0)
+	textLabel.Text = message
+	textLabel.TextColor3=Color3.fromRGB(0, 0, 0)
+	textLabel.TextScaled = true
+	textLabel.BackgroundTransparency = 1
+	textLabel.Parent = billboard
+	task.wait(1)
+end
+
+function CollisionCheck(message)
+end
 
 --main code
 while task.wait(0.1) do
