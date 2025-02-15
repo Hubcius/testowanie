@@ -2,17 +2,25 @@
 local MAX_DISTANCE = math.huge
 
 --variables
-local NPC = script:WaitForChild("Parent")
+local NPC = script.Parent
 local HumanoidRootPart = NPC:WaitForChild("HumanoidRootPart")
 local Players = game:GetService("Players")
 local isWaiting = false
+local DialogCloud=Instance.new("Dialog")
+DialogCloud.InitialPrompt="Mam większą klate od większości dziewczyn"
 
 --functions
 NPC.Humanoid.Touched:Connect(function(hit)
 	if hit.Parent:FindFirstChild("Humanoid") and not isWaiting then
 		isWaiting = true
+		DialogCloud.Parent=NPC:WaitForChild("Head")
+		local choice = Instance.new("DialogChoice")
+        choice.Name = "ResponseChoice"
+        choice.UserDialog = "Naprawdę?"
+        choice.Parent = DialogCloud
 		hit.Parent.Humanoid.Health -= 10
 		task.wait(1)
+		DialogCloud.Parent=nil
 		isWaiting = false
 	end
 end)
